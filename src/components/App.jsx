@@ -1,5 +1,6 @@
 import { Component } from "react";
-import { nanoid } from 'nanoid'
+import { nanoid } from 'nanoid';
+import swal from 'sweetalert';
 import { ContactList } from "./ContactList/ContactList";
 import { Filter } from './Filter/Filter'
 import { ContactForm } from "./ContactForm/ContactForm";
@@ -26,6 +27,12 @@ export class App extends Component {
       number: number.value,
       id: nanoid()
     }
+
+    if (this.state.contacts.find(contact => contact.name === name.value)) {
+      swal("Oops!", `${name.value} is already in contacts`, "error");
+      return;
+    }
+
     this.setState(prevState =>({
       contacts: [...prevState.contacts, contactData]
     }))
@@ -42,6 +49,12 @@ export class App extends Component {
     return contacts.filter(contact => (contact.name.toLowerCase().includes(lowerCaseFilterValue)))
   }
 
+  deleteContact = (id) => {
+    this.setState((prevState) => ({
+      contacts: prevState.contacts.filter((contact) => contact.id !== id)
+    }))
+  };
+
   render() {
     return (
       <div>
@@ -49,7 +62,7 @@ export class App extends Component {
         <ContactForm handleSubmit={ this.handleSubmit } />
         <h2>Contacts</h2>
         <Filter handleInputChange={this.handleFilterChange} value={this.state.filter} />
-        <ContactList constactsList={this.filterContacts()} />
+        <ContactList constactsList={this.filterContacts()} deleteContact={this.deleteContact} />
       </div>
   )}
 }
