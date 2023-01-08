@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { nanoid } from 'nanoid';
 import swal from 'sweetalert';
+import css from './App.module.css'
 import { ContactList } from "./ContactList/ContactList";
 import { Filter } from './Filter/Filter'
 import { ContactForm } from "./ContactForm/ContactForm";
@@ -58,9 +59,9 @@ export class App extends Component {
   render() {
     return (
       <div>
-        <h1>Phonebook</h1>
+        <h1 className={css.title}>Phonebook</h1>
         <ContactForm handleSubmit={ this.handleSubmit } />
-        <h2>Contacts</h2>
+        <h2 className={css.title}>Contacts</h2>
         <Filter handleInputChange={this.handleFilterChange} value={this.state.filter} />
         <ContactList constactsList={this.filterContacts()} deleteContact={this.deleteContact} />
       </div>

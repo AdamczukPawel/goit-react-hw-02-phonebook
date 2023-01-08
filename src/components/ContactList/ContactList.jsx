@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
-// import css from './ContactList.module.css'
+import css from './ContactList.module.css'
 
 export const ContactList =({ constactsList, deleteContact}) => {
     return (
-      <ul>
+      <ul className={css.list}>
         {constactsList.map(contact =>
-            (<li key = {contact.id} >
+            (<li key = {contact.id} className={css.element}>
             {contact.name}: {contact.number}
-            <button type="button" onClick={()=>deleteContact(contact.id)}>Delete</button>
+            <button className={css.button} type="button" onClick={()=>deleteContact(contact.id)}>Delete</button>
             </li>))}
       </ul>
     )
@@ -15,4 +15,5 @@ export const ContactList =({ constactsList, deleteContact}) => {
 
 ContactList.propTypes = {
     constactsList: PropTypes.array.isRequired,
+    deleteContact: PropTypes.func.isRequired
 }

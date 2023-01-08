@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types'
-// import css from './Form.module.css'
+import css from './Filter.module.css'
 
 export const Filter = ({handleInputChange, value}) => {
     return (
-    <>
-        <p>Find contact by name</p>
+    <div className={css.container}>
+        <p className={css.title}>Find contact by name</p>
         <input
           type="text"
           value={value}
           onChange={handleInputChange}
         />
-    </>
+    </div>
     )
 }
 
