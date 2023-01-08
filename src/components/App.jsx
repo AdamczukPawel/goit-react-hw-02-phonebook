@@ -1,35 +1,48 @@
 import { Component } from "react";
+import { nanoid } from 'nanoid'
 import { Contacts } from "./Contacts/Contacts";
 // import {Form} from './Form/Form'
 
 export class App extends Component {
   state = {
-    contacts: [],
+    contacts: [{id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
+    {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
+    {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
+    {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},],
     name: '',
-    number: ''
+    number: '',
+    filter: ''
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.state.contacts.push(`${this.state.name}: ${this.state.number}`);
-    this.setState({
-      name: '',
-      number: ''
-    });
-    console.log(this.state.contacts);
+    const contactData = {
+      name: this.state.name,
+      number: this.state.number,
+      id: nanoid()
+    }
+    this.setState(prevState =>({
+      contacts: [...prevState.contacts, contactData]
+    }))
   };
 
   handleInputChange = (event) => {
-    const { name, number, value } = event.target;
+    const { name, number,filter, value } = event.target;
     this.setState(
       {
         [name]: value,
-        [number]: value
+        [number]: value,
+        [filter]: value,
       }
     );
   };
 
+  filterContacts = () => {
+    const { filter, contacts } = this.state;
+    const lowerCaseFilterValue = filter.toLowerCase();
 
+    return contacts.filter(contact => (contact.name.toLowerCase().includes(lowerCaseFilterValue)))
+  }
 
   render() {
     return (
@@ -62,8 +75,15 @@ export class App extends Component {
           
         </div>
         <h2>Contacts</h2>
+        <p>Find contact by name</p>
+        <input
+          type="text"
+          name="filter"
+          value={this.state.filter}
+          onChange={this.handleInputChange}
+        />
         <ul>
-          <Contacts constactsList={this.state.contacts} />
+          <Contacts constactsList={this.filterContacts()} />
         </ul>
       </>
   )}
